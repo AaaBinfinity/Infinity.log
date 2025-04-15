@@ -430,7 +430,7 @@ export default {
      * 获取加载中的图片
      */
     getLoadingImage() {
-      return 'https://img.shiyit.com/base/mojian/lazy.gif'
+      return './assets/loading.gif'
     },
     /**
      * 生成目录
@@ -517,7 +517,7 @@ export default {
      */
     shareToWeibo() {
       const url = encodeURIComponent(this.currentUrl)
-      const title = encodeURIComponent(`${this.article.title} - 拾壹博客`)
+      const title = encodeURIComponent(`${this.article.title} - Infinity.log`)
       window.open(
         `http://service.weibo.com/share/share.php?url=${url}&title=${title}`,
         "renren-share", "width=490,height=700")
@@ -655,7 +655,7 @@ export default {
                 img.classList.add('loaded')
               }
               tempImg.onerror = () => {
-                img.src = 'https://img.shiyit.com/base/mojian/img-error.jpg'
+                img.src = "./assets/img.png"
                 img.classList.add('error')
               }
               tempImg.src = actualSrc

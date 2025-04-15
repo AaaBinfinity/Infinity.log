@@ -31,7 +31,7 @@ knife4j:
     # aaa"
     email: binfinity@qq.com
     concat: Binfinity
-    url: http://localhost:3002/
+    url: http://localhost:1234/
     version: v1.3
     group:
       test1:
