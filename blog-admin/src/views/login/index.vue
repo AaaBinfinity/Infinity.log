@@ -189,8 +189,8 @@ const showSliderVerify = ref(false);
 const sliderVerifyRef = ref();
 
 const loginForm = reactive({
-  username: "test",
-  password: "123456",
+  username: "",
+  password: "",
   rememberMe: false,
   source: "ADMIN",
   nonceStr: "",
