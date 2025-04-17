@@ -430,7 +430,7 @@ export default {
      * 获取加载中的图片
      */
     getLoadingImage() {
-      return './assets/loading.gif'
+      return 'http://suu91gxne.hb-bkt.clouddn.com/basic/loading.gif?e=1744854077&token=G4jrithVlVa8sw-gQ2wdb9eXmR-WbWjYzwvaSOKg:cXT6EptyzoBVpya88xWTVZwOwQY='
     },
     /**
      * 生成目录

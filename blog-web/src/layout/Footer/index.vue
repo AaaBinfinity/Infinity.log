@@ -35,7 +35,7 @@ export default {
       minutes: 0,
       seconds: 0,
       timer: null,
-      startDate: new Date('2021-08-31')
+      startDate: new Date('2025-04-10')
     }
   },
   computed: {
