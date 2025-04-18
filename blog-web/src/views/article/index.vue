@@ -12,15 +12,7 @@
           </el-badge>
         </div>
       </el-tooltip>
-      <el-tooltip class="item" effect="dark" content="收藏" placement="top-start">
-        <div class="action-item" @click="toggleFavorite">
-          <el-badge :value="article.favoriteNum || 0" class="item">
-            <div class="action-button">
-              <i class="fas fa-star" :class="{ active: article.isFavorite }"></i>
-            </div>
-          </el-badge>
-        </div>
-      </el-tooltip>
+
       <el-tooltip class="item" effect="dark" content="沉浸式浏览" placement="top-start">
         <div class="action-item" @click="toggleSidebar">
           <div class="action-button">
@@ -208,22 +200,22 @@
                 分享
               </button>
               <div class="share-menu" v-show="showShareMenu">
-                <button class="share-item" @click="shareToQQ">
-                  <i class="fab fa-qq"></i>
-                  QQ好友
-                </button>
-                <button class="share-item" @click="shareToQzone">
-                  <i class="fas fa-star"></i>
-                  QQ空间
-                </button>
-                <button class="share-item" @click="shareToWeibo">
-                  <i class="fab fa-weibo"></i>
-                  微博
-                </button>
-                <button class="share-item" @click="shareToWechat">
-                  <i class="fab fa-weixin"></i>
-                  微信
-                </button>
+<!--                <button class="share-item" @click="shareToQQ">-->
+<!--                  <i class="fab fa-qq"></i>-->
+<!--                  QQ好友-->
+<!--                </button>-->
+<!--                <button class="share-item" @click="shareToQzone">-->
+<!--                  <i class="fas fa-star"></i>-->
+<!--                  QQ空间-->
+<!--                </button>-->
+<!--                <button class="share-item" @click="shareToWeibo">-->
+<!--                  <i class="fab fa-weibo"></i>-->
+<!--                  微博-->
+<!--                </button>-->
+<!--                <button class="share-item" @click="shareToWechat">-->
+<!--                  <i class="fab fa-weixin"></i>-->
+<!--                  微信-->
+<!--                </button>-->
                 <button class="share-item" @click="copyLink">
                   <i class="fas fa-link"></i>
                   复制链接

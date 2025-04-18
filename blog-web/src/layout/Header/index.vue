@@ -201,14 +201,14 @@ export default {
             },
             { 
               name: '网站源码', 
-              path: 'https://gitee.com/quequnlong', 
+              path: 'https://github.com/AaaBinfinity/Infinity.log/tree/master',
               icon: 'fab fa-github',
               colorClass: 'github-link',
               external: true 
             },
             { 
               name: '后台管理', 
-              path: import.meta.env.VITE_APP_ADMIN_URL || 'http://localhost:3000',
+              path: import.meta.env.VITE_APP_ADMIN_URL || 'http://admin.infinitylog.top',
               icon: 'fas fa-tv',
               colorClass: 'admin-link',
               external: true 

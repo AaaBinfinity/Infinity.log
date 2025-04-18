@@ -39,7 +39,7 @@
                     </div>
 
                     <div class="content-card flex-card">
-                        <el-form-item label="文章内容" prop="contentMd" class="mb-20">
+                        <el-form-item label="文章内容（支持Markdown和HTML格式）" prop="contentMd" class="mb-20">
                             <mavon-editor
                                 placeholder="输入文章内容..."
                                 style="height: 500px; width: 100%"
