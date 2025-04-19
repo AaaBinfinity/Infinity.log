@@ -110,88 +110,125 @@ const getContributionData = async () => {
     const res = await fetch('http://127.0.0.1:5000/api/contributions')
     const data = await res.json()
 
-    // 假设返回格式：{ contributions: [{ month: '2024-01', count: 15 }, ...] }
-    return data.contributions.map(item => ({
-      month: item.month.slice(5), // 截取月份部分（如'01'）
-      count: item.count
-    }))
+    // 处理日期格式和填充数据
+    const today = new Date()
+    const result = []
+
+    // 生成最近30天的日期映射表
+    const dateMap = new Map()
+    data.contributions.forEach((item: { day: string, count: number }) => {
+      dateMap.set(item.day, item.count)
+    })
+
+    // 填充完整30天数据
+    for (let i = 29; i >= 0; i--) {
+      const date = new Date(today)
+      date.setDate(date.getDate() - i)
+      const dateString = date.toISOString().split('T')[0]
+      const formattedDate = `${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`
+
+      result.push({
+        day: formattedDate,
+        count: dateMap.get(formattedDate) || 0 // 使用格式化后的日期
+      })
+    }
+
+    return result
   } catch (error) {
     console.error('获取贡献数据失败', error)
     return []
   }
 }
 
-// 生成趋势图配置
-const getContributionOption = (contributionData: any[]): EChartsOption => ({
-  tooltip: {
-    trigger: 'axis',
-    formatter: (params: any) => {
-      const data = params[0]
-      return `月份：${data.name}<br/>数量：${data.value}`
-    }
-  },
-  xAxis: {
-    type: 'category',
-    data: contributionData.map(item => item.month),
-    axisLabel: {
-      interval: 0 // 显示所有月份标签
-    }
-  },
-  yAxis: {
-    type: 'value',
-    name: '0'
-  },
-  series: [{
-    data: contributionData.map(item => item.count),
-    type: 'line',
-    smooth: true,
-    areaStyle: {
-      color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-        { offset: 0, color: 'rgba(64,158,255,0.8)' },
-        { offset: 1, color: 'rgba(64,158,255,0.1)' }
-      ])
-    },
-    lineStyle: {
-      width: 3,
-      color: '#409EFF'
-    },
-    itemStyle: {
-      color: '#409EFF'
-    },
-    markPoint: {
-      data: [
-        { type: 'max', name: '峰值' },
-        { type: 'min', name: '谷值' }
-      ],
-      symbolSize: 50,
-      label: {
-        color: '#fff',
-        fontSize: 14
+// 获取趋势图配置
+const getContributionOption = (contributionData: any[]): EChartsOption => {
+  // 计算后30%数据的起始位置
+  const startIndex = Math.floor(contributionData.length * 0.7)
+
+  return {
+    tooltip: {
+      trigger: 'axis',
+      formatter: (params: any) => {
+        const data = params[0]
+        return `日期：${data.name}<br/>数量：${data.value}`
       }
     },
-    animationDuration: 2000,
-    animationEasing: 'cubicOut'
-  }],
-  grid: {
-    left: '3%',
-    right: '4%',
-    bottom: '3%',
-    containLabel: true
+    xAxis: {
+      type: 'category',
+      data: contributionData.map(item => item.day),
+      axisLabel: {
+        interval: 0,
+        rotate: 45 // 日期标签旋转45度防止重叠
+      }
+    },
+    yAxis: {
+      type: 'value'
+    },
+    series: [{
+      data: contributionData.map(item => item.count),
+      type: 'line',
+      smooth: true,
+      areaStyle: {
+        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+          { offset: 0, color: 'rgba(64,158,255,0.8)' },
+          { offset: 1, color: 'rgba(64,158,255,0.1)' }
+        ])
+      },
+      lineStyle: {
+        width: 3,
+        color: '#409EFF'
+      },
+      itemStyle: {
+        color: '#409EFF'
+      },
+      markPoint: {
+        data: [
+          { type: 'max', name: '峰值' },
+          { type: 'min', name: '谷值' }
+        ],
+        symbolSize: 50,
+        label: {
+          color: '#fff',
+          fontSize: 14
+        }
+      },
+      animationDuration: 2000,
+      animationEasing: 'cubicOut'
+    }],
+    grid: {
+      left: '3%',
+      right: '4%',
+      bottom: '15%', // 增加底部间距适应旋转标签
+      containLabel: true
+    },
+    dataZoom: [
+      {
+        type: 'slider',
+        show: true,
+        start: (startIndex / contributionData.length) * 100,  // 设置起始位置为后30%
+        end: 100, // 默认显示最后30%的数据
+        handleSize: '8%',
+        handleStyle: {
+          backgroundColor: '#409EFF',
+        },
+        textStyle: {
+          color: '#666'
+        }
+      }
+    ]
   }
-})
+}
 
-// 初始化趋势图
+// 初始化趋势图（保持相同）
 const initContributionChart = async () => {
   const contributionData = await getContributionData()
   if (contributeRef.value) {
     const contributionChart = echarts.init(contributeRef.value)
     contributionChart.setOption(getContributionOption(contributionData))
-    // 响应窗口变化
     window.addEventListener('resize', () => contributionChart.resize())
   }
 }
 
-// 在组件挂载时初始化
 onMounted(() => {
   initContributionChart()
 })
@@ -307,9 +344,6 @@ const statistics = ref([
 ])
 
 const contributionData = ref([])
-
-// 图表相关
-const lineChartRef = ref<HTMLElement>()
 const pieChartRef = ref<HTMLElement>()
 const lineChart = shallowRef<echarts.ECharts | null>(null)
 const pieChart = shallowRef<echarts.ECharts | null>(null)
