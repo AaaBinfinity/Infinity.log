@@ -53,19 +53,31 @@ public class SysArticleServiceImpl extends ServiceImpl<SysArticleMapper, SysArti
 
     @Override
     public SysArticleDetailVo detail(Integer id) {
+        // 根据文章ID查询文章详细信息
         SysArticle sysArticle = baseMapper.selectById(id);
 
+        // 创建一个新的SysArticleDetailVo对象，用于返回文章的详细信息
         SysArticleDetailVo sysArticleDetailVo = new SysArticleDetailVo();
+
+        // 将查询到的SysArticle属性复制到SysArticleDetailVo中
         BeanUtils.copyProperties(sysArticle, sysArticleDetailVo);
 
+        // 根据文章的分类ID查询文章所属的分类信息
         SysCategory sysCategory = sysCategoryMapper.selectById(sysArticle.getCategoryId());
+
+        // 将查询到的分类名称设置到SysArticleDetailVo中
         sysArticleDetailVo.setCategoryName(sysCategory.getName());
 
-        //获取标签
+        // 根据文章ID获取文章的标签列表
         List<String> tags = sysTagMapper.getTagNameByArticleId(id);
+
+        // 将标签列表设置到SysArticleDetailVo中
         sysArticleDetailVo.setTags(tags);
+
+        // 返回封装好的文章详细信息对象
         return sysArticleDetailVo;
     }
+
 
     @Override
     @Transactional(rollbackFor = Exception.class)

@@ -36,18 +36,24 @@ public class TaskQuartz {
      * 定时同步阅读量
      */
     public void syncQuantity() {
-        // 获取带阅读量的前缀key集合
         List<SysArticle> articles = new ArrayList<>();
         Map<Object, Object> map = redisUtil.hGetAll(RedisConstants.ARTICLE_QUANTITY);
-        // 取出所有数据更新到数据库
+
         for (Map.Entry<Object, Object> stringEntry : map.entrySet()) {
             Object id = stringEntry.getKey();
             List<String> list = (List<String>) stringEntry.getValue();
             SysArticle article = SysArticle.builder()
-                    .id(Long.parseLong(id.toString())).quantity(list.size())
+                    .id(Long.parseLong(id.toString()))
+                    .quantity(list.size())
                     .build();
             articles.add(article);
         }
+
+        if (articles.isEmpty()) {
+            System.out.println("暂无需要更新的数据");
+            return;
+        }
+
         articleMapper.updateBatchQuantity(articles);
     }
 

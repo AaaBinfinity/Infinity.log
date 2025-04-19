@@ -33,15 +33,7 @@
         </div>
       </div>
       <div class="nav-bottom">
-        <a
-          class="nav-item"
-          href="https://gitee.com/quequnlong/shiyi-blog"
-          target="_blank"
-          title="查看源码"
-        >
-          <i class="fab fa-github"></i>
-          <span class="nav-text">源码</span>
-        </a>
+
       </div>
     </div>
 

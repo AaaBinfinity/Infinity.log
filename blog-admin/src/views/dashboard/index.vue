@@ -3,8 +3,8 @@
     <!-- 数据卡片 -->
     <el-row :gutter="20">
       <el-col :span="6" v-for="(item, index) in statistics" :key="item.title">
-        <el-card 
-          shadow="hover" 
+        <el-card
+          shadow="hover"
           :body-style="{ padding: '20px' }"
           class="data-card"
           :style="{ animationDelay: `${index * 0.1}s` }"
@@ -27,7 +27,7 @@
       </el-col>
     </el-row>
 
-    
+
     <el-row :gutter="20" class="chart-row">
       <el-col :span="24">
         <el-card shadow="hover" class="chart-card">
@@ -41,14 +41,18 @@
 
     <!-- 图表区域 -->
     <el-row :gutter="20" class="chart-row">
-      <el-col :span="16">
+      <el-col :span="6">
         <el-card shadow="hover" class="chart-card">
           <template #header>
-              <span>访问趋势</span>
+            <div class="card-header">
+              <span>词云图</span>
+            </div>
           </template>
-          <div ref="lineChartRef" class="chart"></div>
+          <div ref="wordCloudRef" class="chart"></div>
         </el-card>
       </el-col>
+
+
       <el-col :span="8">
         <el-card shadow="hover" class="chart-card">
           <template #header>
@@ -59,16 +63,27 @@
           <div ref="pieChartRef" class="chart"></div>
         </el-card>
       </el-col>
+
+      <el-col :span="10">
+        <el-card shadow="hover" class="chart-card">
+          <template #header>
+            <div class="card-header">
+              <span>贡献趋势</span>
+            </div>
+          </template>
+          <div ref="contributeRef" class="chart"></div>
+        </el-card>
+      </el-col>
     </el-row>
 
   </div>
 </template>
 
 <script setup lang="ts">
-import * as echarts from 'echarts'
+
 import type { EChartsOption } from 'echarts'
-import { 
-  CaretTop, 
+import {
+  CaretTop,
   CaretBottom,
   Document,
   Collection,
@@ -78,6 +93,182 @@ import {
 import CountTo from '@/views/dashboard/components/CountTo.vue'
 import ContributionGraph from './components/ContributionGraph.vue'
 import { getDashboardDataApi, getBottomDataApi } from '@/api/system'
+
+import 'echarts-wordcloud'
+import * as echarts from 'echarts'
+import { ref, onMounted } from 'vue'
+
+
+
+
+// 贡献趋势图相关
+const contributeRef = ref<HTMLElement>()
+
+// 获取趋势图数据
+const getContributionData = async () => {
+  try {
+    const res = await fetch('http://127.0.0.1:5000/api/contributions')
+    const data = await res.json()
+
+    // 假设返回格式：{ contributions: [{ month: '2024-01', count: 15 }, ...] }
+    return data.contributions.map(item => ({
+      month: item.month.slice(5), // 截取月份部分（如'01'）
+      count: item.count
+    }))
+  } catch (error) {
+    console.error('获取贡献数据失败', error)
+    return []
+  }
+}
+
+// 生成趋势图配置
+const getContributionOption = (contributionData: any[]): EChartsOption => ({
+  tooltip: {
+    trigger: 'axis',
+    formatter: (params: any) => {
+      const data = params[0]
+      return `月份：${data.name}<br/>数量：${data.value}`
+    }
+  },
+  xAxis: {
+    type: 'category',
+    data: contributionData.map(item => item.month),
+    axisLabel: {
+      interval: 0 // 显示所有月份标签
+    }
+  },
+  yAxis: {
+    type: 'value',
+    name: '0'
+  },
+  series: [{
+    data: contributionData.map(item => item.count),
+    type: 'line',
+    smooth: true,
+    areaStyle: {
+      color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+        { offset: 0, color: 'rgba(64,158,255,0.8)' },
+        { offset: 1, color: 'rgba(64,158,255,0.1)' }
+      ])
+    },
+    lineStyle: {
+      width: 3,
+      color: '#409EFF'
+    },
+    itemStyle: {
+      color: '#409EFF'
+    },
+    markPoint: {
+      data: [
+        { type: 'max', name: '峰值' },
+        { type: 'min', name: '谷值' }
+      ],
+      symbolSize: 50,
+      label: {
+        color: '#fff',
+        fontSize: 14
+      }
+    },
+    animationDuration: 2000,
+    animationEasing: 'cubicOut'
+  }],
+  grid: {
+    left: '3%',
+    right: '4%',
+    bottom: '3%',
+    containLabel: true
+  }
+})
+
+// 初始化趋势图
+const initContributionChart = async () => {
+  const contributionData = await getContributionData()
+  if (contributeRef.value) {
+    const contributionChart = echarts.init(contributeRef.value)
+    contributionChart.setOption(getContributionOption(contributionData))
+    // 响应窗口变化
+    window.addEventListener('resize', () => contributionChart.resize())
+  }
+}
+
+// 在组件挂载时初始化
+onMounted(() => {
+  initContributionChart()
+})
+
+
+
+
+
+// 词云图相关
+const wordCloudRef = ref<HTMLElement>()
+
+// 获取词云图数据
+const getWordCloudData = async () => {
+  try {
+    const res = await fetch('http://127.0.0.1:5000/api/keywords')
+    const data = await res.json()
+
+    // 假设返回的数据格式为 { keywords: [{ keyword: 'Vue', frequency: 100, color: '#00FF00' }, ...] }
+    return data.keywords.map((item: { keyword: string, frequency: number, color: string }) => ({
+      name: item.keyword,
+      value: item.frequency,
+      color: item.color // 添加颜色字段
+    }))
+  } catch (error) {
+    console.error('获取词云数据失败', error)
+    return []
+  }
+}
+
+// 更新词云图配置函数
+const getWordCloudOption = (wordData: any[]): EChartsOption => ({
+  tooltip: { show: true, formatter: '{b}: {c}' },
+  series: [{
+    type: 'wordCloud',
+    shape: 'circle',
+    sizeRange: [15, 50],
+    rotationRange: [-60, 60],
+    rotationStep: 25,
+    gridSize: 8,
+    drawOutOfBound: false,
+    // 使用textStyle.color来设置颜色
+    textStyle: {
+      color: (params) => params.data.color // 直接从数据中获取颜色
+    },
+    data: wordData.map((item) => ({
+      name: item.name,
+      value: item.value,
+      color: item.color // 保留颜色字段供textStyle使用
+    })),
+    emphasis: {
+      focus: 'self', // 添加聚焦效果
+      textStyle: {
+        shadowBlur: 10,
+        shadowColor: '#333'
+      }
+    },
+    animationDuration: 1000,
+    animationEasing: 'elasticOut',
+    animationDurationUpdate: 3000,
+    animationEasingUpdate: 'elasticOut'
+  }]
+});
+
+// 初始化词云图时确保数据正确传递
+const initWordCloudChart = async () => {
+  const wordData = await getWordCloudData();
+  if (wordCloudRef.value) {
+    const wordCloudChart = echarts.init(wordCloudRef.value);
+    wordCloudChart.setOption(getWordCloudOption(wordData));
+    // 强制重绘以触发动画
+    setTimeout(() => wordCloudChart.resize(), 0);
+  }
+};
+onMounted(() => {
+  initWordCloudChart()
+});
+
 
 const icons = {
   Document: markRaw(Document),
@@ -89,27 +280,27 @@ const icons = {
 }
 
 const statistics = ref([
-  { 
-    title: '文章总数', 
-    value: 0, 
+  {
+    title: '文章总数',
+    value: 0,
     type: 'primary',
     icon: icons.Document
   },
-  { 
-    title: '用户总数', 
-    value: 0, 
+  {
+    title: '用户总数',
+    value: 0,
     type: 'success',
     icon: icons.Collection
   },
-  { 
-    title: '留言总数', 
-    value: 0, 
+  {
+    title: '留言总数',
+    value: 0,
     type: 'warning',
     icon: icons.ChatLineRound
   },
   {
-    title: '访问量', 
-    value: 0, 
+    title: '访问量',
+    value: 0,
     type: 'info',
     icon: icons.View
   }
@@ -123,52 +314,6 @@ const pieChartRef = ref<HTMLElement>()
 const lineChart = shallowRef<echarts.ECharts | null>(null)
 const pieChart = shallowRef<echarts.ECharts | null>(null)
 
-// 折线图配置
-const getLineChartOption = (): EChartsOption => ({
-  tooltip: {
-    trigger: 'axis'
-  },
-  grid: {
-    left: '3%',
-    right: '4%',
-    bottom: '3%',
-    containLabel: true
-  },
-  xAxis: {
-    type: 'category',
-    boundaryGap: false,
-    data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
-  },
-  yAxis: {
-    type: 'value'
-  },
-  series: [
-    {
-      name: '访问量',
-      type: 'line',
-      smooth: true,
-      data: [820, 932, 901, 934, 1290, 1330, 1320],
-      areaStyle: {
-        opacity: 0.3
-      },
-      itemStyle: {
-        color: '#409EFF'
-      }
-    },
-    {
-      name: '浏览量',
-      type: 'line',
-      smooth: true,
-      data: [620, 732, 701, 734, 1090, 1130, 1120],
-      areaStyle: {
-        opacity: 0.3
-      },
-      itemStyle: {
-        color: '#67C23A'
-      }
-    }
-  ]
-})
 
 // 饼图配置
 const getPieChartOption = (): EChartsOption => ({
@@ -210,11 +355,8 @@ const getPieChartOption = (): EChartsOption => ({
 // 初始化图表
 const initCharts = () => {
   getBottomDataApi().then(res => {
-    if (lineChartRef.value) {
-      lineChart.value = echarts.init(lineChartRef.value)
-      lineChart.value.setOption(getLineChartOption())
-    }
-    
+
+
     if (pieChartRef.value) {
       pieChart.value = echarts.init(pieChartRef.value)
         const option = getPieChartOption()
@@ -334,7 +476,7 @@ onUnmounted(() => {
 }
 
 .chart {
-  height: 350px;
+  height: 450px;
   width: 100%;
 }
 
@@ -354,4 +496,4 @@ onUnmounted(() => {
     color: #909399;
   }
 }
-</style> 
+</style>
