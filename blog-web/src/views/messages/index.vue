@@ -146,7 +146,7 @@ export default {
     color: #fff;
 
     .message-title {
-      color: #eee;
+      color: #a3a3a3;
       animation: title-scale 1s;
     }
 

@@ -324,6 +324,7 @@ export default {
         isOriginal: true,
         readType: 1,
         price: 0,
+        quantity: 0, // 添加这一行
       },
       prevArticle: {
         id: 1,
@@ -348,6 +349,7 @@ export default {
       showPaymentDialog: false,
       showMembershipDialog: false,
       isAiDescriptionExpanded: true,
+
     }
   },
   computed: {
@@ -422,7 +424,7 @@ export default {
      * 获取加载中的图片
      */
     getLoadingImage() {
-      return 'http://suu91gxne.hb-bkt.clouddn.com/basic/loading.gif?e=1744854077&token=G4jrithVlVa8sw-gQ2wdb9eXmR-WbWjYzwvaSOKg:cXT6EptyzoBVpya88xWTVZwOwQY='
+      return 'http://img.infinitylog.top/imgs/loading.gif'
     },
     /**
      * 生成目录
@@ -647,7 +649,7 @@ export default {
                 img.classList.add('loaded')
               }
               tempImg.onerror = () => {
-                img.src = "./assets/img.png"
+                img.src = "http://img.infinitylog.top/imgs/nullimg.png"
                 img.classList.add('error')
               }
               tempImg.src = actualSrc

@@ -60,8 +60,8 @@ export default {
 <style scoped lang="scss">
 .random-video-btn {
     position: fixed;
-    left: 20px;
-    bottom: 50%;
+    left: 10px;
+    bottom: 10%;
     font-size: 1.5rem;
     color: $primary;
     cursor: pointer;
