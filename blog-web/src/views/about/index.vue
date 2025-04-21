@@ -29,7 +29,8 @@
           ~~~🎲 今天你是一个：<strong>{{ programmerTitle }}</strong></p>
           <p class="quote-text">{{ currentQuote }}
             <button class="change-quote-button" @click="changeQuote">换一句</button></p>
-
+<p>🌌 Infinity.log，是我在漫漫星河中留下一道道微光的方式。 生命的轨迹，也许无法预测，但我希望，它至少能被记录。</p>
+<p>希望多年以后再回望，看到了不止是沙发上的屁股印，还有这个博客，静静地说着： “你曾热烈地活过。”</p>
         </div>
       </div>
       <!-- 返回顶部按钮 -->

@@ -94,7 +94,7 @@ public class SysArticleServiceImpl extends ServiceImpl<SysArticleMapper, SysArti
         addTags(sysArticle, obj);
 
         ThreadUtil.execAsync(() -> {
-            String res = aiUtil.send(obj.getContent() + "请提供一段简短的介绍描述该文章的内容");
+            String res = aiUtil.send(obj.getContent() + "提供一段简短的介绍描述该文章的内容，要求有人味，要引导读者看完这篇文章，吸引读者注意力，要求90~150字");
             if (StringUtils.isNotBlank(res)) {
                 obj.setAiDescribe(res);
                 baseMapper.updateById(obj);

@@ -88,6 +88,7 @@
 
         <!-- AI简短介绍 -->
         <div v-if="article.aiDescribe" class="ai-description">
+
           <div class="ai-header" @click="isAiDescriptionExpanded = !isAiDescriptionExpanded">
             <i class="fas fa-robot"></i>
             <span>AI 摘要</span>
@@ -102,7 +103,7 @@
             <div class="ai-content" v-show="isAiDescriptionExpanded">
               <span class="typing-text" ref="typingText"></span>
               <div class="ai-description-text">
-                摘要由平台通过智能技术生成
+                摘要由平台通过AI技术生成
               </div>
             </div>
           </transition>
@@ -394,7 +395,6 @@ export default {
           if (this.article.aiDescribe) {
             const typingText = this.$refs.typingText
             if (!typingText) return
-            // 使用marked解析Markdown文本
             const htmlContent = marked(this.article.aiDescribe || '')
             typingText.innerHTML = htmlContent
           }
@@ -1154,7 +1154,7 @@ export default {
   :deep(pre) {
     margin: 1em 0;
     position: relative;
-    background: #282c34;
+    background: rgba(179, 171, 171, 0.11);
     border-radius: 6px;
     padding-top: 2.5em;
     overflow: hidden;
@@ -1188,7 +1188,7 @@ export default {
       transform: translateX(-50%);
       padding: 6px 16px;
       background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.04);
       border-radius: 4px;
       color: #abb2bf;
       cursor: pointer;
@@ -1219,9 +1219,9 @@ export default {
       font-size: 14px;
       padding: 1em 0;
       text-align: right;
-      color: #666;
-      border-right: 1px solid #404040;
-      background: #2d323b;
+      color: #837a7a;
+      border-right: 1px solid rgba(205, 210, 218, 0.05);
+      background: rgba(34, 39, 38, 0.11);
       user-select: none;
       z-index: 1;
 
@@ -1282,10 +1282,10 @@ export default {
     /* 复制按钮样式 */
     .copy-button {
       padding: 4px 8px;
-      background: rgba(255, 255, 255, 0.1);
+      background: rgba(158, 146, 146, 0.44);
       border: none;
       border-radius: 4px;
-      color: #abb2bf;
+      color: #617da5;
       cursor: pointer;
       font-size: 14px;
       transition: all 0.2s ease;
@@ -1298,7 +1298,7 @@ export default {
       }
 
       &:hover {
-        background: rgba(255, 255, 255, 0.2);
+        background: rgba(122, 116, 116, 0.7);
         color: #fff;
       }
 

@@ -55,13 +55,13 @@ wechat:
   appletAppId:
   appletSecret:
 
-#==============================豆包推理AI配置=======================================
+#==============================推理AI配置=======================================
 ai:
   # API Key
-  apiKey: 1098519a-93ef-418e-a547-a54fa30d3626
+  apiKey: 93c9d1d4-abcd-4d0e-b4ab-c9737a651cb2
   baseUrl: https://ark.cn-beijing.volces.com/api/v3
   # 推理接入点ID
-  model:
+  model: doubao-1-5-vision-pro-32k-250115
 
 #==============================邮箱配置=======================================
 mail:
