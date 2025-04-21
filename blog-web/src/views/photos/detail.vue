@@ -20,16 +20,7 @@
             </div>
             <h1>{{ album.name }}</h1>
             <p class="album-description">{{ album.description }}</p>
-            <div class="album-actions">
-              <button class="action-btn share-btn">
-                <i class="fas fa-share-alt"></i>
-                分享相册
-              </button>
-              <button class="action-btn download-btn">
-                <i class="fas fa-download"></i>
-                下载全部
-              </button>
-            </div>
+
           </div>
         </div>
         <div class="header-background">
@@ -178,43 +169,62 @@ export default {
 <style lang="scss" scoped>
 .album-header {
   position: relative;
-  min-height: 400px;
+  min-height: 300px;
   padding: 60px 20px;
   margin-bottom: 40px;
   overflow: hidden;
   display: flex;
   align-items: center;
-  
+
   .header-background {
     position: absolute;
     inset: 0;
     z-index: 0;
-    
+
     .gradient-overlay {
       position: absolute;
       inset: 0;
       background: linear-gradient(
         135deg,
-        rgba(30, 41, 59, 0.95) 0%,
-        rgba(30, 41, 59, 0.8) 100%
+        rgba(95, 124, 170, 0.95) 0%,
+        rgba(138, 79, 193, 0.8) 100%
       );
     }
-    
+
     .pattern-overlay {
       position: absolute;
       inset: 0;
-      opacity: 0.4;
-      background-image: 
-        linear-gradient(45deg, rgba(255,255,255,0.1) 25%, transparent 25%),
-        linear-gradient(-45deg, rgba(255,255,255,0.1) 25%, transparent 25%),
-        linear-gradient(45deg, transparent 75%, rgba(255,255,255,0.1) 75%),
-        linear-gradient(-45deg, transparent 75%, rgba(255,255,255,0.1) 75%);
-      background-size: 20px 20px;
-      background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
-      animation: patternMove 20s linear infinite;
+      opacity: 0.2; /* 调低不透明度使得背景图案更为柔和 */
+      background-image:
+          linear-gradient(45deg, rgba(181, 80, 214, 0.1) 25%, transparent 25%),
+          linear-gradient(-45deg, rgba(0, 204, 255, 0.1) 25%, transparent 25%),
+          linear-gradient(45deg, transparent 75%, rgba(230, 134, 190, 0.1) 75%),
+          linear-gradient(-45deg, transparent 75%, rgba(0, 204, 255, 0.1) 75%);
+      background-size: 30px 30px; /* 增大图案的大小 */
+      background-position: 0 0, 0 15px, 15px -15px, -15px 0; /* 调整图案的位置 */
+      animation: patternMove 15s linear infinite; /* 加快动画速度 */
     }
+
+    @keyframes patternMove {
+      0% {
+        background-position: 0 0, 0 15px, 15px -15px, -15px 0;
+      }
+      25% {
+        background-position: 10px 10px, 10px 25px, 25px -5px, -5px 10px;
+      }
+      50% {
+        background-position: 20px 20px, 20px 35px, 35px 5px, 5px 20px;
+      }
+      75% {
+        background-position: 30px 30px, 30px 45px, 45px 15px, 15px 30px;
+      }
+      100% {
+        background-position: 0 0, 0 15px, 15px -15px, -15px 0;
+      }
+    }
+
   }
-  
+
   .header-content {
     max-width: 1200px;
     width: 100%;
@@ -261,13 +271,13 @@ export default {
     text-align: center;
     padding: 40px 60px;
     animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-    
+
     .album-meta {
       display: flex;
       justify-content: center;
       gap: 20px;
       margin-bottom: 20px;
-      
+
       span {
         display: flex;
         align-items: center;
@@ -278,7 +288,7 @@ export default {
         background: rgba(255, 255, 255, 0.1);
         border-radius: 20px;
         backdrop-filter: blur(8px);
-        
+
         i {
           color: #64B5F6;
           font-size: 1.1em;
@@ -291,7 +301,7 @@ export default {
       margin: 0;
       font-weight: 800;
       letter-spacing: -1px;
-      background: linear-gradient(120deg, 
+      background: linear-gradient(120deg,
         #ffffff 0%,
         #e0e0e0 50%,
         #ffffff 100%

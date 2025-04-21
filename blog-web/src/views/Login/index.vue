@@ -695,7 +695,7 @@ export default {
   transition: all 0.2s;
 
   &:hover {
-    background: #4f46e5;
+    background: #3c33e1;
     transform: translateY(-1px);
   }
 

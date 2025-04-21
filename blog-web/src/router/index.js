@@ -105,16 +105,7 @@ const routes = [
                   icon: 'fas fa-fire'
                 }
               },
-              {
-                path: '/resources',
-                name: 'Resources',
-                component: () => import('@/views/resources/index.vue'),
-                meta: {
-                  title: '资源',
-                  icon: 'fas fa-cloud-download-alt'
 
-                }
-              },
               {
                 path: '/messages',
                 name: 'Messages',

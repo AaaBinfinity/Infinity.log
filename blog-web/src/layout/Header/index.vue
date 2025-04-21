@@ -163,12 +163,7 @@ export default {
           icon: 'fas fa-fire',
           colorClass: 'hot-link'
         },
-        { 
-          name: '资源', 
-          path: '/resources', 
-          icon: 'fas fa-cloud-download-alt',
-          colorClass: 'resource-link'
-        },
+
         { 
           name: '相册', 
           path: '/photos', 

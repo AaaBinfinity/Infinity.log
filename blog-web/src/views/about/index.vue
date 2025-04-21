@@ -202,26 +202,12 @@ export default {
       feedback: '',
       quizIndex: 0,
       galleryImages: [
-        // { src: "https://images.unsplash.com/photo-1501973801540-537f08ccae7e", alt: "日落" },
-        { src: "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb", alt: "街景" },
-        { src: "https://images.unsplash.com/photo-1470770841072-f978cf4d019e", alt: "城市灯光" },
-        { src: "https://images.unsplash.com/photo-1508057198894-247b23fe5ade", alt: "夜晚城市" },
-
-        { src: "https://images.unsplash.com/photo-1469474968028-56623f02e42e", alt: "城市夜景" },
-        { src: "https://images.unsplash.com/photo-1494526585095-c41746248156", alt: "黄昏街道" },
-
-        { src: "https://images.unsplash.com/photo-1543269865-cbf427effbad", alt: "地铁站夜景" },
-        { src: "https://images.unsplash.com/photo-1542435503-956c469947f6", alt: "摩天楼" },
-
-        { src: "https://images.unsplash.com/photo-1544986581-efac024faf62", alt: "城市黄昏" },
-        { src: "https://images.unsplash.com/photo-1534043464124-3be32fe000c9", alt: "阳光街头" },
-        { src: "https://images.unsplash.com/photo-1557683304-673a23048d34", alt: "城市远景" },
-        { src: "https://images.unsplash.com/photo-1518837695005-2083093ee35b", alt: "彩色霓虹" },
-        { src: "https://images.unsplash.com/photo-1500336624523-d727130c3328", alt: "街头艺术" },
-        { src: "https://images.unsplash.com/photo-1470770841072-f978cf4d019e", alt: "城市广场" },
-        { src: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c", alt: "车灯轨迹" },
-        { src: "https://images.unsplash.com/photo-1516455590571-18256e5bb9ff", alt: "现代建筑" },
-        { src: "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f", alt: "城市角落" },
+        { src: "http://susgtyiom.hb-bkt.clouddn.com/20250418/article-cover/36_0a2b8b0da3abaed1e81634ea9ed8af40.jpg"},
+        { src: "http://susgtyiom.hb-bkt.clouddn.com/20250418/moment/65_87faa7dec45f35173ebec031edcb48ef.jpg"},
+        { src: "http://susgtyiom.hb-bkt.clouddn.com/20250421/photo/24_6950c1dae63f7acba4fa1f6fd48482c.jpg"},
+        { src: "http://susgtyiom.hb-bkt.clouddn.com/20250421/photo/56_6cb38c3683d039f0c6ec180c0cccb3c.jpg"},
+        { src: "http://susgtyiom.hb-bkt.clouddn.com/20250421/photo/61_27adeb2526638e0877d0f00fde23579.jpg"},
+        { src: "http://susgtyiom.hb-bkt.clouddn.com/20250421/photo/64_34f1c97154fd3aac9b0fff7ef822760.jpg"},
 
 
 
@@ -665,8 +651,8 @@ export default {
     flex-wrap: wrap;
   }
   .photo-thumb {
-    width: 120px;
-    height: 80px;
+    width: 300px;
+    height: auto;
     object-fit: cover;
     border-radius: 8px;
     cursor: pointer;
