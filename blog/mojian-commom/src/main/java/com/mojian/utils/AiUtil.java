@@ -75,7 +75,6 @@ public class AiUtil {
                     .forEach(choice -> {
                         // 校验是否触发了深度思考，打印思维链内容
                         if (choice.getMessage().getReasoningContent() != null) {
-                            System.out.println("推理内容: " + choice.getMessage().getReasoningContent());
                         } else {
                             System.out.println("推理内容为空");
                         }
