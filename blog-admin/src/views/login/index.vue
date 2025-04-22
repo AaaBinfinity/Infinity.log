@@ -37,8 +37,12 @@
         </div>
 
         <h2 class="welcome-text">欢迎回来</h2>
-        <p class="login-tip">请使用您的账号密码登录系统</p>
+        <p class="login-tip">请使用您的账号密码登录系统
+<br>
+          <span style="color: rgb(126,126,126);font-size: 12px;text-align: center">展示账户：test + 123456</span>
 
+
+        </p>
         <div class="login-tabs">
           <div
             class="tab-item"

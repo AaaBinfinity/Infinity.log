@@ -2153,8 +2153,7 @@ export default {
 
   @media screen and (max-width: 768px) {
     grid-column: 2;
-    padding-top: 60px; // 为header留出空间
-    height: 100vh; // 设置全屏高度
+    height: 90vh; // 设置全屏高度
     position: fixed; // 固定定位
     right: 0; // 固定在右侧
     left: 80px; // 留出左侧导航栏的空间
@@ -2196,6 +2195,7 @@ export default {
 
         @media screen and (max-width: 768px) {
           display: flex;
+
         }
 
         &:hover {
@@ -2316,6 +2316,7 @@ export default {
 
   .chat-input {
     position: absolute;
+
     bottom: 0;
     left: 0;
     right: 0;
@@ -2327,8 +2328,10 @@ export default {
     z-index: 10;
 
     @media screen and (max-width: 768px) {
-      position: fixed; // 固定定位
-      left: 80px; // 与左侧导航栏对齐
+      height: 45px;
+      position: fixed;
+      padding: 8px; // 减小整体 padding
+      gap: 6px; // 减小组件间距
     }
 
     .input-toolbar {
@@ -2343,9 +2346,11 @@ export default {
       .file-upload-btn {
         color: #2daba5;
       }
+
       .voice-toggle-btn {
         color: #e67e22;
       }
+
       .toolbar-btn {
         padding: $spacing-sm;
         border: none;
@@ -2358,10 +2363,31 @@ export default {
         }
       }
     }
+
+    @media (max-width: 768px) {
+      .input-toolbar {
+        gap: 4px;
+        height: 25px;
+
+        .toolbar-btn {
+          padding: 4px;
+          font-size: 0.9rem;
+        }
+
+        :deep(.emoji-picker i) {
+          font-size: 16px !important;
+        }
+      }
+    }
+
     .input-area {
       flex: 1;
       display: flex;
       gap: $spacing-sm;
+
+      @media (max-width: 768px) {
+        gap: 4px;
+      }
     }
 
     textarea {
@@ -2377,6 +2403,12 @@ export default {
       &:focus {
         outline: none;
         border-color: $primary;
+      }
+
+      @media (max-width: 768px) {
+        padding: 6px;
+        height: 28px; // 减小高度
+        font-size: 14px;
       }
     }
 
@@ -2394,8 +2426,16 @@ export default {
         opacity: 0.5;
         cursor: not-allowed;
       }
+
+      @media (max-width: 768px) {
+        width: 50px;
+        height: 32px;
+        font-size: 0.9em;
+        padding: 6px;
+      }
     }
   }
+
 }
 
 .message-text {
@@ -2963,12 +3003,16 @@ export default {
   }
 }
 
+
+
+
 .message-input {
   flex: 1;
-  border: 1px solid var(--border-color);
+  border: 2px solid var(--border-color);
   border-radius: 8px;
   padding: $spacing-md;
-  min-height: 60px;
+  height: 25px;
+
   max-height: 150px;
   overflow-y: auto;
   background: var(--input-bg);

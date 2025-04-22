@@ -769,4 +769,86 @@ export default {
     }
   }
 }
+@media (max-width: 768px) {
+  .quote-container {
+    margin-top: 20px;
+
+    .quote-text {
+      font-size: 1.2rem;
+      margin-bottom: 12px;
+      text-align: center;
+    }
+
+    .change-quote-button {
+      font-size: 0.9rem;
+      padding: 6px 12px;
+    }
+  }
+
+  .about-page {
+    padding: 1rem;
+  }
+
+  .about-card {
+    padding: 1rem;
+    border-radius: 12px;
+
+    h1 {
+      font-size: 1.5rem;
+    }
+
+    h2 {
+      font-size: 1.2rem;
+    }
+
+    .intro-section {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+
+      .avatar {
+        width: 160px;
+        height: 160px;
+        margin: 0 0 1rem 0;
+      }
+
+      .intro-text {
+        .subtitle {
+          font-size: 1rem;
+          margin: 0.5rem 0;
+        }
+      }
+    }
+
+    .photo-gallery {
+      gap: 8px;
+
+      .photo-thumb {
+        width: 100%;
+        max-width: 100%;
+      }
+    }
+
+    .section-image {
+      margin-top: 0.5rem;
+      border-radius: 6px;
+    }
+
+    ul {
+      padding-left: 1.2em;
+      li {
+        margin-bottom: 0.4em;
+      }
+    }
+
+    .back-to-top {
+      bottom: 1rem;
+      right: 1rem;
+      width: 36px;
+      height: 36px;
+      font-size: 1.2rem;
+    }
+  }
+}
+
 </style>

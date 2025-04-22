@@ -159,13 +159,13 @@ export default {
                 ],
                 contentMd: [
                     { required: true, message: '请输入文章内容', trigger: 'blur' },
-                    { 
+                    {
                         validator: (rule, value, callback) => {
                             if (!value) {
                                 callback();
                                 return;
                             }
-                            
+
                             // 检查最小长度
                             if (value.length < 50) {
                                 callback(new Error('文章内容至少需要50个字符'));
@@ -184,8 +184,8 @@ export default {
 
 
                             callback();
-                        }, 
-                        trigger: ['blur', 'change'] 
+                        },
+                        trigger: ['blur', 'change']
                     }
                 ],
                 cover: [
@@ -196,15 +196,15 @@ export default {
                 ],
                 tagIds: [
                     { required: true, message: '请选择文章标签', trigger: 'change' },
-                    { 
+                    {
                         validator: (rule, value, callback) => {
                             if (value.length > 3) {
                                 callback(new Error('最多只能选择3个标签'));
                             } else {
                                 callback();
                             }
-                        }, 
-                        trigger: 'change' 
+                        },
+                        trigger: 'change'
                     }
                 ],
                 originalUrl: [
@@ -212,15 +212,15 @@ export default {
                     { type: 'url', message: '请输入有效的URL地址', trigger: 'blur' }
                 ],
                 keywords: [
-                    { 
+                    {
                         validator: (rule, value, callback) => {
                             if (value && value.split(',').length > 5) {
                                 callback(new Error('关键词最多不超过5个'));
                             } else {
                                 callback();
                             }
-                        }, 
-                        trigger: 'blur' 
+                        },
+                        trigger: 'blur'
                     }
                 ]
             },

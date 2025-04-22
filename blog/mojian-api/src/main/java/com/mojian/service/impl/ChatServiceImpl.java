@@ -100,7 +100,7 @@ public class ChatServiceImpl implements ChatService {
                             "你说话要用第一人称，要像一个可爱的小姐姐一样，理解用户的情绪并回应。",
                             "你可以使用 HTML 或 Markdown 语法进行美化，但不要使用 ~ 或 markdown/html 冲突的格式。",
                             "",
-                            "现在，请回复下面这位用户的问题：",
+                            "现在，请回复下面这位用户的问题（回复中不要使用波浪号'~'）：",
                             "用户提问：" + replaceContent
                     );
 

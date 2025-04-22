@@ -59,7 +59,7 @@ export default {
   data() {
     return {
       // 樱花相关数据
-      sakuraNum: 25,
+      sakuraNum: 15,
       limitTimes: -1,
       limitArray: []
     }
@@ -285,7 +285,24 @@ export default {
       let origin;
       let normal;
       let ctx;
-      const colours = ["#F73859", "#14FFEC", "#00E0FF", "#FF99FE", "#FAF15D"];
+      const colours = [
+        "#F73859", // 鲜红
+        "#14FFEC", // 薄荷绿
+        "#00E0FF", // 亮青蓝
+        "#FF99FE", // 梦幻粉紫
+        "#FAF15D", // 柠檬黄
+        "#FF6B6B", // 珊瑚红
+        "#6C5CE7", // 紫罗兰
+        "#55E6C1", // 浅青绿
+        "#FDCB6E", // 橘黄
+        "#A29BFE", // 淡紫
+        "#74B9FF", // 天蓝
+        "#E17055", // 烈焰橙
+        "#81ECEC", // 水蓝
+        "#00CEC9", // 湖水绿
+        "#FAB1A0"  // 浅粉橙
+      ];
+
       const canvas = document.createElement("canvas");
       document.body.appendChild(canvas);
       canvas.setAttribute("style", "width: 100%; height: 100%; top: 0; left: 0; z-index: 99999; position: fixed; pointer-events: none;");
