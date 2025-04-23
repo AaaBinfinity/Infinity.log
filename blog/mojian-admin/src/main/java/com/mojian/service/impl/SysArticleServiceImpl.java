@@ -94,7 +94,13 @@ public class SysArticleServiceImpl extends ServiceImpl<SysArticleMapper, SysArti
         addTags(sysArticle, obj);
 
         ThreadUtil.execAsync(() -> {
-            String res = aiUtil.send(obj.getContent() + "提供一段简短的介绍描述该文章的内容，要求有人味，要引导读者看完这篇文章，吸引读者注意力，要求90~150字");
+            String prompt = obj.getContent() +
+                    "。请根据以上内容，撰写一段 100 至 200 字之间的简洁介绍，适合用作网页文章摘要。（放在文章的最顶端）" +
+                    "要求内容真实准确、语言简练优美，能够吸引读者继续阅读全文。" +
+                    "使用 HTML 语法进行美化（如 <strong>、<em> ，在标签里加上style等），但不要使用 ~ 符号，也不要混用 Markdown 导致格式错误。" +
+                    "请直接输出文章内容摘要，不要添加提示词或说明性文字。";
+            String res = aiUtil.send(prompt);
+
             if (StringUtils.isNotBlank(res)) {
                 obj.setAiDescribe(res);
                 baseMapper.updateById(obj);
