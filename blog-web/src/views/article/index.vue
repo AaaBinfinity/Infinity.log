@@ -1,4 +1,4 @@
-<template>
+<template xmlns="http://www.w3.org/1999/html">
   <div class="article-page" v-loading="loading">
 
     <!-- 添加固定操作栏 -->
@@ -84,6 +84,26 @@
               </div>
             </div>
           </div>
+
+
+
+<!--          &lt;!&ndash; 音乐播放器 &ndash;&gt;-->
+<!--          <div class="music-player" v-if="music.url">-->
+<!--            <div class="music-header">-->
+<!--              <div class="music-title">-->
+<!--                <h5 style="color: #409eff">🎵 音乐角</h5>-->
+<!--                <p class="music-name" :title="music.name">{{ music.name }}</p>-->
+<!--              </div>-->
+<!--              <button @click="fetchMusic" class="music-refresh-btn">-->
+<!--                换一首-->
+<!--              </button>-->
+<!--            </div>-->
+<!--            <audio :src="music.url" controls class="music-audio">-->
+<!--              您的浏览器不支持 audio 元素。-->
+<!--            </audio>-->
+<!--          </div>-->
+
+
         </header>
 
         <!-- AI简短介绍 -->
@@ -267,8 +287,8 @@
         <div class="toc-container">
           <div class="toc-header">
             <div class="title-wrapper">
-            <i class="fas fa-list"></i>
-            <span>目录</span>
+              <i class="fas fa-list"></i>
+              <span>目录</span>
             </div>
             <div class="progress-wrapper" :class="{ completed: readProgress === 100 }">
               <i class="fas fa-book-reader"></i>
@@ -276,15 +296,25 @@
             </div>
           </div>
           <div class="toc-content">
-            <div v-for="(item, index) in tocItems" :key="index" class="toc-item" :class="{
-              'active': activeHeading === item.id,
-              [`level-${item.level}`]: true
-            }" @click="scrollToHeading(item.id)">
+            <div
+                v-for="(item, index) in tocItems"
+                :key="index"
+                class="toc-item"
+                :class="{
+          'active': activeHeading === item.id,
+          [`level-${item.level}`]: true
+        }"
+                @click="scrollToHeading(item.id)"
+            >
               {{ item.text }}
             </div>
           </div>
         </div>
+
+
+
       </aside>
+
     </div>
     <mj-image-preview ref="imagePreview" />
     <payment-dialog
@@ -319,6 +349,10 @@ export default {
   },
   data() {
     return {
+      music: {
+        name: '',
+        url: ''
+      },
       article: {
         title: '',
         category: {},
@@ -359,6 +393,16 @@ export default {
     }
   },
   methods: {
+    fetchMusic() {
+      fetch('http://127.0.0.1:5000/api/music')
+          .then(response => response.json())
+          .then(data => {
+            this.music = data.music;
+          })
+          .catch(error => {
+            console.error('获取音乐失败:', error);
+          });
+    },
     /**
      * 获取文章详情
      */
@@ -887,6 +931,7 @@ export default {
     window.addEventListener('resize', this.updateActionBarPosition)
   },
   mounted() {
+    this.fetchMusic();
     window.addEventListener('scroll', this.updateActiveHeading)
     this.$nextTick(() => {
       this.initImagePreview()
@@ -2087,5 +2132,65 @@ export default {
 .expand-leave-from {
   opacity: 1;
 }
+.music-player {
+  left: 15%;
+  margin-top: 12px;
+  padding: 1px 0 ;
+  border-radius: 1px;
+  transition: all 0.3s ease;
+}
+
+.music-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.music-title {
+  display: flex;
+  flex-direction: column;
+}
+
+.music-title h5 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #409eff;
+  line-height: 1.2;
+}
+
+.music-name {
+  font-size: 12px;
+  color: #409eff;
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 500px;
+}
+
+.music-refresh-btn {
+  background-color: #409eff;
+  color: white;
+  border: none;
+  padding: 4px 10px;
+  font-size: 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.music-refresh-btn:hover {
+  background-color: #66b1ff;
+}
+
+.music-audio {
+  width: 100%;
+  height: 28px;
+  border-radius: 6px;
+}
+
+
 
 </style>
