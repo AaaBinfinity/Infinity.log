@@ -141,9 +141,9 @@
 
       <!-- 页脚版权信息 -->
       <footer class="footer">
-        <p>Copyright © 2024 Neat-Admin</p>
+        <p>Copyright © 2025 Infinity.log-Admin</p>
         <a href="https://beian.miit.gov.cn/" target="_blank"
-          >湘ICP备2022002110号-1</a
+          >辽ICP备2025054503号-1</a
         >
       </footer>
     </div>

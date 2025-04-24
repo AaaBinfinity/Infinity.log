@@ -107,7 +107,7 @@ const contributeRef = ref<HTMLElement>()
 // 获取趋势图数据
 const getContributionData = async () => {
   try {
-    const res = await fetch('http://127.0.0.1:5000/api/contributions')
+    const res = await fetch('http://infinitylog.top:1314/api/contributions')
     const data = await res.json()
 
     // 处理日期格式和填充数据
@@ -243,7 +243,7 @@ const wordCloudRef = ref<HTMLElement>()
 // 获取词云图数据
 const getWordCloudData = async () => {
   try {
-    const res = await fetch('http://127.0.0.1:5000/api/keywords')
+    const res = await fetch('http://infinitylog.top:1314/api/keywords')
     const data = await res.json()
 
     // 假设返回的数据格式为 { keywords: [{ keyword: 'Vue', frequency: 100, color: '#00FF00' }, ...] }

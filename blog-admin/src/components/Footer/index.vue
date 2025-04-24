@@ -13,7 +13,10 @@
       
       <div class="right-section">
         <div class="powered-by">
-          Powered by Vue3 & Element Plus
+          <a href="https://beian.miit.gov.cn/" target="_blank" style="color: #007BFF; font-size: 14px; text-decoration: none;">
+            辽ICP备2025054503号-1
+          </a>
+
         </div>
       </div>
     </div>

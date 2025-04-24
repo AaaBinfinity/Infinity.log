@@ -75,7 +75,7 @@ mail:
 qq:
   app-id: 102774530
   app-secret: MYVGpAF6j9MM9i3C
-  redirect-url: http://infinitylog.top/api/auth/callback/qq
+  redirect-url: http://infinitylog.top/mojian/api/auth/callback/qq
 weibo:
   app-id:
   app-secret:
@@ -84,13 +84,13 @@ weibo:
 gitee:
   app-id: af286a061d6808341dd1e99cde152ada02d1e064aac04d2a8b3d5e744f42e9a7
   app-secret: 62dd0cce76f7c6416faf0594562012312cb9e75c9a5392feaa9b16fd30c18389
-  redirect-url: http://infinitylog.top/api/auth/callback/gitee
+  redirect-url: http://infinitylog.top/mojian/api/auth/callback/gitee
 
 
 github:
   app-id: Ov23likAMEdljwAf8LMs
   app-secret: 712c7018c17d725eca478d07b8ad25457aca5566
-  redirect-url: http://infinitylog.top/api/auth/callback/github
+  redirect-url: http://infinitylog.top/mojian/api/auth/callback/github
 
 
 

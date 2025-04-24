@@ -92,7 +92,7 @@ export default {
       }
     },
     fetchMusic() {
-      axios.get('http://127.0.0.1:5000/api/music').then(res => {
+      axios.get('http://infinitylog.top:1314/api/music').then(res => {
         this.music = res.data.music || {};
       }).catch(() => {
         this.$message.error('获取音乐失败');

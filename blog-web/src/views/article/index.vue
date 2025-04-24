@@ -394,7 +394,7 @@ export default {
   },
   methods: {
     fetchMusic() {
-      fetch('http://127.0.0.1:5000/api/music')
+      fetch('http://infinitylog.top:1314/api/music')
           .then(response => response.json())
           .then(data => {
             this.music = data.music;

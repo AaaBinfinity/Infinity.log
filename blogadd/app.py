@@ -183,4 +183,5 @@ def list_music():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, port=1314)
+    # 修改为0.0.0.0，允许外部访问
+    app.run(debug=True, host='0.0.0.0', port=1314)

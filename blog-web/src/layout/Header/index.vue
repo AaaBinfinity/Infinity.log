@@ -514,7 +514,7 @@ export default {
 
   @media screen and (max-width: 1200px) {
     gap: $spacing-sm;
-    
+
     .nav-link {
       font-size: 0.8em;
       padding: $spacing-xs $spacing-sm;
@@ -534,7 +534,7 @@ export default {
       i {
         display: none;
       }
-      
+
       padding: $spacing-xs $spacing-xs;
       font-size: 0.75em;
     }
