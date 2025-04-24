@@ -1201,9 +1201,8 @@ export default {
     position: relative;
     background: rgba(179, 171, 171, 0.11);
     border-radius: 6px;
-    padding-top: 2.5em;
+    padding-top: 2em;
     overflow: hidden;
-    max-height: 2000px;
     transition: max-height 0.4s ease-in-out;
 
     &.collapsed {

@@ -265,7 +265,7 @@ public class AuthServiceImpl implements AuthService {
 
         if (response.getData() == null) {
             log.info("用户取消了 {} 第三方登录",source);
-            httpServletResponse.sendRedirect("http://localhost:1234/");
+            httpServletResponse.sendRedirect("http://infinitylog.top/");
             return;
         }
         String result = com.alibaba.fastjson.JSONObject.toJSONString(response.getData());
@@ -297,7 +297,7 @@ public class AuthServiceImpl implements AuthService {
         }
 
         StpUtil.login(user.getId());
-        httpServletResponse.sendRedirect("http://localhost:1234/?token=" + StpUtil.getTokenValue());
+        httpServletResponse.sendRedirect("http://infinitylog.top/?token=" + StpUtil.getTokenValue());
     }
 
     @Override

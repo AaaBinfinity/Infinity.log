@@ -8,7 +8,7 @@ from qiniu import Auth, BucketManager
 access_key = 'G4jrithVlVa8sw-gQ2wdb9eXmR-WbWjYzwvaSOKg'
 secret_key = 'mnZgQQudQeAazpMhw_kEvGus7FWZ3LdXrS-Z-2R6'
 bucket_name = 'infinitylogtemp'
-domain = 'http://suwcoa2z3.hb-bkt.clouddn.com'  
+domain = 'http://temp.infinitylog.top/'  
 # 创建 Flask 实例
 app = Flask(__name__)
 
@@ -183,4 +183,4 @@ def list_music():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=1314)
