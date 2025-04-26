@@ -394,7 +394,7 @@ export default {
   },
   methods: {
     fetchMusic() {
-      fetch('http://infinitylog.top:1314/api/music')
+      fetch('https://infinitylog.top/api1314/api/music')
           .then(response => response.json())
           .then(data => {
             this.music = data.music;
@@ -468,7 +468,7 @@ export default {
      * 获取加载中的图片
      */
     getLoadingImage() {
-      return 'http://img.infinitylog.top/imgs/loading.gif'
+      return 'https://img.infinitylog.top/imgs/loading.gif'
     },
     /**
      * 生成目录

@@ -1,255 +1,143 @@
 <template>
-  <div class="contribution-graph">
-    <div class="months-dynamic">
-  <span v-for="(month, index) in monthLabels"
-        :key="index"
-        :style="{ gridColumnStart: month.weekIndex + 1 }">
-    {{ month.name }}
-  </span>
-    </div>
-
-    <div class="graph-wrapper">
-      <div class="weekdays">
-        <span>周日</span>
-        <span>周一</span>
-        <span>周二</span>
-        <span>周三</span>
-        <span>周四</span>
-        <span>周五</span>
-        <span>周六</span>
-      </div>
-      <div class="graph">
-        <div v-for="(week, weekIndex) in weeklyData"
-             :key="weekIndex"
-             class="week">
-          <div v-for="(day, dayIndex) in week"
-               :key="dayIndex"
-               class="day"
-               :class="getActivityClass(day.count)"
-               :data-empty="day.count === -1"
-               :title="day.date ? `${formatDate(day.date)} · ${day.count} 次贡献` : ''">
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="legend">
-      <span>较少</span>
-      <div v-for="level in 5"
-           :key="level"
-           class="day"
-           :class="`activity-${level - 1}`">
-      </div>
-      <span>较多</span>
+  <div class="contribution-graph-container">
+    <!-- ECharts 热力图 -->
+    <div class="echarts-container">
+      <div id="echarts-heatmap" style="width:1350px; height: 280px;"></div>
     </div>
   </div>
 </template>
 
-<script setup lang="ts">
-interface DayData {
-  date: string;
-  count: number;
-}
-
-import dayjs from 'dayjs'
-import 'dayjs/locale/zh-cn'
-
-dayjs.locale('zh-cn')
-
-const props = defineProps<{
-  data: any
-}>()
-
-const monthLabels = computed(() => {
-  const labels: { name: string; weekIndex: number }[] = []
-  const seenMonths = new Set()
-
-  mergedData.value.forEach((day, index) => {
-    const month = dayjs(day.date).month() // 0 ~ 11
-    if (!seenMonths.has(month)) {
-      seenMonths.add(month)
-      const weekIndex = Math.floor(index / 7)
-      labels.push({ name: `${month + 1}月`, weekIndex })
-    }
-  })
-
-  return labels
-})
-
-// 生成过去一年的空数据结构
-const generateEmptyYear = () => {
-  const data: DayData[] = []
-  const endDate = dayjs()
-  const startDate = dayjs().subtract(1, 'year').add(1, 'day')
-  let currentDate = startDate
-
-  while (currentDate.isBefore(endDate) || currentDate.isSame(endDate, 'day')) {
-    data.push({
-      date: currentDate.format('YYYY-MM-DD'),
-      count: 0
-    })
-    currentDate = currentDate.add(1, 'day')
-  }
-  return data
-}
-
-// 合并实际数据到完整年份数据中
-const mergedData = computed(() => {
-  const emptyYear = generateEmptyYear()
-  const dataMap = new Map(props.data?.map((item: DayData) => [item.date, item.count]))
-
-  return emptyYear.map(day => ({
-    date: day.date,
-    count: dataMap.get(day.date) ?? 0
-  })) as DayData[]
-})
-
-// 固定显示12个月份
-const months = ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月']
-
-// 计算每个月开始的位置
-const weeklyData = computed(() => {
-  const weeks: DayData[][] = []
-  let week: DayData[] = []
-  const startDate = dayjs().subtract(1, 'year').add(1, 'day')
-  let currentDate = startDate
-
-  // 补充开始日期之前的空格子
-  const startDayOfWeek = currentDate.day()
-  for (let i = 0; i < startDayOfWeek; i++) {
-    week.push({ date: '', count: -1 }) // -1 表示空格子
-  }
-
-  // 填充实际数据
-  mergedData.value.forEach((day, index) => {
-    week.push(day)
-    if (week.length === 7) {
-      weeks.push(week)
-      week = []
-    }
-  })
-
-  // 补充最后一周的空格子
-  if (week.length > 0) {
-    while (week.length < 7) {
-      week.push({ date: '', count: -1 })
-    }
-    weeks.push(week)
-  }
-
-  return weeks
-})
-
-const formatDate = (dateStr: string) => {
-  return dayjs(dateStr).format('YYYY年M月D日 dddd')
-}
-
-const getActivityClass = (value: number) => {
-  return `activity-${value}`
-}
-</script>
-
 <style scoped>
-.contribution-graph {
-  padding: 20px;
-  font-size: 14px;
-}
-
-.months {
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  margin-bottom: 15px;
-  color: #666;
-  padding: 0 15px;
-  margin-left: 20px;
-  width: calc(100% - 30px);
-}
-
-.months span {
-  text-align: center;
-}
-
-.graph-wrapper {
+.echarts-container {
   display: flex;
-  gap: 10px;
+  justify-content: center; /* 水平居中 */
+  align-items: center;     /* 垂直居中 */
+  height: 100%;            /* 确保父容器的高度充满可用空间 */
 }
-
-.weekdays {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 15px 0;
-  color: #666;
-  font-size: 12px;
-}
-
-.weekdays span {
-  height: 15px;
-  line-height: 15px;
-  margin-bottom: 4px;
-}
-
-.graph {
-  flex: 1;
-  display: flex;
-  gap: 4px;
-  width: calc(100% - 30px);
-  padding: 15px 0;
-}
-
-.week {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  flex: 1;
-}
-
-.day {
-  width: 100%;
-  aspect-ratio: 1;
-  max-width: 15px;
-  height: 15px;
-  border-radius: 3px;
-  background-color: #ebedf0;
-  cursor: pointer;
-  transition: transform 0.1s ease;
-  &[data-empty="true"] {
-    visibility: hidden;
-  }
-}
-
-.day:hover {
-  transform: scale(1.2);
-}
-
-.activity-0 { background-color: #d7e2f3; }
-.activity-1 { background-color: #b3cfff; }
-.activity-2 { background-color: #6699ff; }
-.activity-3 { background-color: #3366ff; }
-.activity-4 { background-color: #0033cc; }
-
-.legend {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-top: 20px;
-  justify-content: flex-end;
-  color: #666;
-  font-size: 14px;
-}
-
-.months-dynamic {
-  display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: minmax(15px, auto);
-  margin-bottom: 10px;
-  padding-left: 50px; /* 留出 space 给周几标签 */
-  color: #666;
-  font-size: 12px;
-}
-.months-dynamic span {
-  text-align: center;
-}
-
 
 
 </style>
+
+
+
+<script setup lang="ts">
+import { onMounted, computed, ref, watch, onBeforeUnmount } from 'vue';
+import * as echarts from 'echarts/core';
+import { CalendarComponent, VisualMapComponent } from 'echarts/components';
+import { HeatmapChart } from 'echarts/charts';
+import { CanvasRenderer } from 'echarts/renderers';
+import dayjs from 'dayjs';
+import 'dayjs/locale/zh-cn';
+
+// ECharts setup
+echarts.use([CalendarComponent, VisualMapComponent, HeatmapChart, CanvasRenderer]);
+dayjs.locale('zh-cn');
+
+const props = defineProps<{
+  data: Array<{
+    date: string;
+    count: number;
+  }>;
+}>();
+const heatmapChart = ref<echarts.ECharts | null>(null);
+const currentYear = dayjs().year();
+const startDate = dayjs(`${currentYear}-01-01`);
+const endDate = dayjs(`${currentYear}-12-31`);
+
+const formattedData = computed(() =>
+    props.data?.map(item => ({
+      date: dayjs(item.date, 'YYYY年M月D日').format('YYYY-MM-DD'),
+      count: item.count
+    })) || []
+);
+
+const mergedData = computed(() => {
+  const dataMap = new Map(formattedData.value.map(item => [item.date, item.count]));
+  const result = [];
+  let currentDate = startDate;
+
+  while (currentDate.isBefore(endDate) || currentDate.isSame(endDate, 'day')) {
+    const dateStr = currentDate.format('YYYY-MM-DD');
+    result.push({
+      date: dateStr,
+      count: dataMap.get(dateStr) ?? 0
+    });
+    currentDate = currentDate.add(1, 'day');
+  }
+
+  return result;
+});
+const initHeatmap = () => {
+  const chartDom = document.getElementById('echarts-heatmap');
+  if (!chartDom) return;
+
+  heatmapChart.value = echarts.init(chartDom);
+  updateHeatmap();
+};
+const updateHeatmap = () => {
+  if (!heatmapChart.value) return;
+  const maxCount = Math.max(...mergedData.value.map(item => item.count), 1);
+  const heatmapData = mergedData.value.map(item => [item.date, item.count]);
+  const option = {
+    tooltip: {
+      position: 'top',
+      formatter: (params: any) =>
+          `${dayjs(params.data[0]).format('YYYY年M月D日')} · ${params.data[1]} 次贡献`
+    },
+    visualMap: {
+      min: 0,
+      max: maxCount,
+      calculable: true,
+      orient: 'horizontal',
+      left: 'center',
+      bottom: 10,
+      inRange: {
+        color: ['rgba(234,238,246,0.62)', 'rgba(179,207,255,0.62)', 'rgba(102,153,255,0.62)', 'rgba(51,102,255,0.62)', '#0033cc']
+      }
+    },
+    calendar: {
+      range: currentYear,
+      cellSize: [24, 24],  // 格子尺寸
+      top: 30,
+      left: 30,
+      right: 30,
+      bottom: 80,
+      itemStyle: {
+        borderWidth: 1,
+        borderRadius: 6,  // 设置圆角
+        borderColor: '#b8b5b5',  // 边框颜色
+      },
+      yearLabel: { show: false }
+    },
+
+
+    series: {
+      type: 'heatmap',
+      coordinateSystem: 'calendar',
+      data: heatmapData,
+      emphasis: {
+        itemStyle: {
+          shadowBlur: 10,
+          shadowColor: 'rgba(0, 0, 0, 0.5)'
+        }
+      }
+    }
+  };
+
+  heatmapChart.value.setOption(option);
+};
+
+
+const handleResize = () => heatmapChart.value?.resize();
+
+onMounted(() => {
+  initHeatmap();
+  window.addEventListener('resize', handleResize);
+});
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', handleResize);
+  heatmapChart.value?.dispose();
+});
+
+watch(mergedData, updateHeatmap);
+</script>

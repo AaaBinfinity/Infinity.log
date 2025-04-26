@@ -6,6 +6,8 @@ import lombok.Data;
 public class PageQuery {
     /**
      * 当前页码
+     *
+     *
      */
     private Integer pageNum = 1;
     

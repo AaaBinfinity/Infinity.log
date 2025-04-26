@@ -4,10 +4,10 @@
     <el-row :gutter="20">
       <el-col :span="6" v-for="(item, index) in statistics" :key="item.title">
         <el-card
-          shadow="hover"
-          :body-style="{ padding: '20px' }"
-          class="data-card"
-          :style="{ animationDelay: `${index * 0.1}s` }"
+            shadow="hover"
+            :body-style="{ padding: '20px' }"
+            class="data-card"
+            :style="{ animationDelay: `${index * 0.1}s` }"
         >
           <div class="card-content">
             <div class="icon-wrapper" :class="item.type">
@@ -15,10 +15,10 @@
             </div>
             <div class="data-wrapper">
               <count-to
-                :start-val="0"
-                :end-val="item.value"
-                :duration="2000"
-                class="card-value"
+                  :start-val="0"
+                  :end-val="item.value"
+                  :duration="2000"
+                  class="card-value"
               />
               <div class="card-title">{{ item.title }}</div>
             </div>
@@ -27,9 +27,9 @@
       </el-col>
     </el-row>
 
-
-    <el-row :gutter="20" class="chart-row">
-      <el-col :span="24">
+    <!-- 贡献图区域 -->
+    <el-row :gutter="20" class="chart-row" justify="center" align="middle">
+      <el-col :span="24" class="chart-col">
         <el-card shadow="hover" class="chart-card">
           <template #header>
             <span>文章贡献图</span>
@@ -39,9 +39,12 @@
       </el-col>
     </el-row>
 
+
+
     <!-- 图表区域 -->
     <el-row :gutter="20" class="chart-row">
-      <el-col :span="6">
+      <!-- 词云图和分类统计在同一行 -->
+      <el-col :span="12">
         <el-card shadow="hover" class="chart-card">
           <template #header>
             <div class="card-header">
@@ -52,8 +55,7 @@
         </el-card>
       </el-col>
 
-
-      <el-col :span="8">
+      <el-col :span="12">
         <el-card shadow="hover" class="chart-card">
           <template #header>
             <div class="card-header">
@@ -63,8 +65,11 @@
           <div ref="pieChartRef" class="chart"></div>
         </el-card>
       </el-col>
+    </el-row>
 
-      <el-col :span="10">
+    <!-- 贡献趋势放在下一行 -->
+    <el-row :gutter="20" class="chart-row">
+      <el-col :span="24">
         <el-card shadow="hover" class="chart-card">
           <template #header>
             <div class="card-header">
@@ -75,9 +80,10 @@
         </el-card>
       </el-col>
     </el-row>
-
   </div>
 </template>
+
+
 
 <script setup lang="ts">
 
@@ -107,7 +113,7 @@ const contributeRef = ref<HTMLElement>()
 // 获取趋势图数据
 const getContributionData = async () => {
   try {
-    const res = await fetch('http://infinitylog.top:1314/api/contributions')
+    const res = await fetch('https://infinitylog.top/api1314/api/contributions')
     const data = await res.json()
 
     // 处理日期格式和填充数据
@@ -233,17 +239,13 @@ onMounted(() => {
   initContributionChart()
 })
 
-
-
-
-
 // 词云图相关
 const wordCloudRef = ref<HTMLElement>()
 
 // 获取词云图数据
 const getWordCloudData = async () => {
   try {
-    const res = await fetch('http://infinitylog.top:1314/api/keywords')
+    const res = await fetch('https://infinitylog.top/api1314/api/keywords')
     const data = await res.json()
 
     // 假设返回的数据格式为 { keywords: [{ keyword: 'Vue', frequency: 100, color: '#00FF00' }, ...] }
@@ -393,11 +395,11 @@ const initCharts = () => {
 
     if (pieChartRef.value) {
       pieChart.value = echarts.init(pieChartRef.value)
-        const option = getPieChartOption()
-        if (option.series && Array.isArray(option.series)) {
-          option.series[0].data = res.data
-        }
-        pieChart.value?.setOption(option)
+      const option = getPieChartOption()
+      if (option.series && Array.isArray(option.series)) {
+        option.series[0].data = res.data
+      }
+      pieChart.value?.setOption(option)
     }
   })
 
@@ -430,7 +432,6 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-
 /* 数据卡片样式 */
 .data-card {
   animation: slideUp 0.5s ease-out forwards;
@@ -531,3 +532,4 @@ onUnmounted(() => {
   }
 }
 </style>
+

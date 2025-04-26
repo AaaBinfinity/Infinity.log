@@ -203,7 +203,7 @@ export default {
             },
             { 
               name: '后台管理', 
-              path: import.meta.env.VITE_APP_ADMIN_URL || 'http://admin.infinitylog.top',
+              path: import.meta.env.VITE_APP_ADMIN_URL || 'https://blogadmin.infinitylog.top',
               icon: 'fas fa-tv',
               colorClass: 'admin-link',
               external: true 

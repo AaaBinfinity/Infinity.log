@@ -59,7 +59,7 @@ export default {
   data() {
     return {
       // 樱花相关数据
-      sakuraNum: 15,
+      sakuraNum: 12,
       limitTimes: -1,
       limitArray: []
     }
