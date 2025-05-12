@@ -1,5 +1,6 @@
 from qiniu import Auth, BucketManager
 from ..config import Config
+from urllib.parse import quote
 
 def list_images():
     """列出七牛云中的图片文件"""
@@ -46,9 +47,10 @@ def list_music_files():
         for item in ret['items']:
             key = item['key']
             if key.lower().endswith(('.mp3', '.wav', '.ogg', '.flac')):
+                encoded_key = quote(key, safe='')  # 这里进行 URL 编码
                 music_files.append({
                     'name': key,
-                    'url': f"{Config.QINIU_DOMAIN}/{key}"
+                    'url': f"{Config.QINIU_DOMAIN}/{encoded_key}"
                 })
 
         if eof:

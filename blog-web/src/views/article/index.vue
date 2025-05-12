@@ -465,10 +465,12 @@ export default {
       )
     },
     /**
+     *
+     *
      * 获取加载中的图片
      */
     getLoadingImage() {
-      return 'https://img.infinitylog.top/imgs/loading.gif'
+      return 'https://img.infinitylog.top/img/lazy.gif'
     },
     /**
      * 生成目录
@@ -693,7 +695,7 @@ export default {
                 img.classList.add('loaded')
               }
               tempImg.onerror = () => {
-                img.src = "http://img.infinitylog.top/imgs/nullimg.png"
+                img.src = "https://img.infinitylog.top/img/img-error.png"
                 img.classList.add('error')
               }
               tempImg.src = actualSrc
